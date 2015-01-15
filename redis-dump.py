@@ -101,10 +101,17 @@ readers = {'string':stringReader,
 
 
 if __name__ == "__main__":
-	args = {'host':'localhost',
-			'port':6379,
-			'password':None,
-			'db':0}
-	with open('/tmp/test.json','w') as f:
-		r = redisDump(**args)
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--host',action='store',dest='host',default='localhost',help='redis server host,default[localhost]')
+	parser.add_argument('--port',action='store',dest='port',default=6379,help='redis server port,defalut[6379]')
+	parser.add_argument('--passwd',action='store',dest='passwd',default=None,help='redis server passwd,default[None]')
+	parser.add_argument('--db',action='store',dest='db',default=0,help='witch database will be export,defalut[0]')
+	parser.add_argument('--path',action='store',dest='path',help='the file path,ex:/tmp/dump.json')
+	args = parser.parse_args()
+	arg = {'host':args.host,
+			'port':args.port,
+			'password':args.passwd,
+			'db':args.db}
+	with open(args.path,'w') as f:
+		r = redisDump(**arg)
 		r.dumps(f)
