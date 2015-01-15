@@ -7,10 +7,10 @@ import argparse
 class redisDump(object):
 	def __init__(self,**kwargs):
 		self.r = redis.Redis(host=kwargs['host'],
-							 port=kwargs['port'],
-							 password=kwargs['password'],
-							 db=kwargs['db'],
-							 encoding='utf-8')
+							port=kwargs['port'],
+							password=kwargs['password'],
+							db=kwargs['db'],
+							encoding='utf-8')
 
 	def __reader(self):
 		for key in self.r.keys():
