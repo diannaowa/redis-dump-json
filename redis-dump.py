@@ -93,11 +93,12 @@ class hashReader(object):
 			r[v.decode('utf-8')] = data[v].decode('utf-8')
 		return r
 
-readers = {'string':stringReader,
-			'list':listReader,
-			'set':setReader,
-			'zset':zsetReader,
-			'hash':hashReader}
+readers = {
+		'string':stringReader,
+		'list':listReader,
+		'set':setReader,
+		'zset':zsetReader,
+		'hash':hashReader}
 
 
 if __name__ == "__main__":
