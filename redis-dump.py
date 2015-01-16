@@ -2,7 +2,7 @@
 #coding=utf-8
 
 import json,redis
-import argparse
+import argparse,sys
 
 class redisDump(object):
 	def __init__(self,**kwargs):
@@ -11,7 +11,8 @@ class redisDump(object):
 				port=kwargs['port'],
 				password=kwargs['password'],
 				db=kwargs['db'],
-				encoding='utf-8')
+				encoding='utf-8'
+				)
 
 	def __reader(self):
 		for key in self.r.keys():
@@ -50,7 +51,6 @@ class redisDump(object):
 
 
 class stringReader(object):
-
 	@staticmethod
 	def command(p,key):
 		p.get(key)
@@ -108,10 +108,15 @@ if __name__ == "__main__":
 	parser.add_argument('--db',action='store',dest='db',default=0,help='witch database will be export,defalut[0]')
 	parser.add_argument('--path',action='store',dest='path',help='the file path,ex:/tmp/dump.json')
 	args = parser.parse_args()
-	arg = {'host':args.host,
-			'port':args.port,
-			'password':args.passwd,
-			'db':args.db}
+	arg = {
+		'host':args.host,
+		'port':args.port,
+		'password':args.passwd,
+		'db':args.db
+		}
 	with open(args.path,'w') as f:
-		r = redisDump(**arg)
-		r.dumps(f)
+		try:
+			r = redisDump(**arg)
+			r.dumps(f)
+		except:
+			print >>sys.stderr,"can't dump data from %s:%s"%(arg['host'],arg['port'])
